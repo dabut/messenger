@@ -7,6 +7,8 @@
 		$last_id = $_GET['last_id'];
 		$count = 0;
 		while ($row = mysqli_fetch_array($query)) {
+			$row['user'] = addslashes($row['user']);
+			$row['message'] = addslashes($row['message']);
 			$result += array($count++ => $row);
 			$last_id = $row['id'];
 		}

@@ -1,0 +1,12 @@
+#login {
+	display: inline;
+}
+
+#login:hover {
+	cursor: pointer;
+}
+
+#message_input {
+	bottom: 0;
+	position: fixed;
+}
