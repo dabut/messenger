@@ -27,16 +27,19 @@
 
 <html>
 	<head>
+		<link rel="stylesheet" type="text/css" href="assets/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="assets/style.css" />
 		<script type="text/javascript" src="assets/jquery.js"></script>
 		<script type="text/javascript" src="assets/script.js"></script>
 	</head>
 	<body>
-		<div class="container">
-			<div class="content">
+		<div class="container-fluid">
+			<div class="container content">
 
 			</div>
-			<input type="text" id="message_input" />
+			<div class="input-group">
+				<input type="text" class="form-control" id="message_input" />
+			</div>
 		</div>
 		<script>
 			<?php
