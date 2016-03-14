@@ -47,6 +47,7 @@
 						$.post('login.php', {username: $('#login').val()}, function(data){
 							if (data == 'true') {
 								$('.container').html(oldContainer);
+								last_id = 0;
 							}
 						});
 					}
@@ -57,10 +58,10 @@
 			setInterval(function(){
 				$.get('update.php?id=<?=$id?>&last_id='+last_id, function(data){ 
 					var messages = JSON.parse(data)[0];
+					last_id = JSON.parse(data)['last_id'];
 					for (var i=0;i<messages.length;i++) {
 						$('.content').append(show(messages[i]['user'], messages[i]['time'], messages[i]['message']));
 					}
-					last_id = JSON.parse(data)['last_id'];
 				});
 			}, 100);
 
