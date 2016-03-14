@@ -1,7 +1,18 @@
-#login {
-	display: inline;
+body {
+	height: 100%;
 }
 
-#login:hover {
-	cursor: pointer;
+.container {
+	display: table;
+	height: 100%;
+}
+
+.content {
+	height: 100%;
+	overflow-y: scroll;
+}
+
+.input {
+	display: table-row;
+	height: 0;
 }
