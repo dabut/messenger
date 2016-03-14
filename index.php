@@ -21,11 +21,12 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="assets/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="assets/style.css" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<script type="text/javascript" src="assets/jquery.js"></script>
 		<script type="text/javascript" src="assets/script.js"></script>
 	</head>
 	<body>
-		<div class="container-fluid container">
+		<div class="container">
 			<div class="content">
 
 			</div>
