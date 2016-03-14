@@ -27,6 +27,9 @@
 	</head>
 	<body>
 		<div class="container">
+			<div class="menu">
+			<a id="logout">Logout</a>
+			</div>
 			<div class="content">
 				<div class="messages">
 
@@ -39,22 +42,43 @@
 		<script>
 
 			if (<?=isGuest()?>) {
-				var oldContainer = $('.container').html();
-				$('.container').html('<input type="text" id="login" placeholder="username" />');
+				$('.messages').hide();
+				$('#message_input').attr('id', 'login');
+				$('#login').attr('placeholder', 'Username');
 			}
+
 			var username = '<?=$user?>';
 
-			$('#login').keypress(function(e){
+			$('input').on('keypress', function(e){
 				if (e.which == 13) {
-					if ($('#login').val() != '') {
-						$.post('login.php', {username: $('#login').val()}, function(data){
-							if (data == 'true') {
-								$('.container').html(oldContainer);
-								last_id = 0;
-							}
-						});
+					if ($(this).is('#login')) {
+						if ($('#login').val() != '') {
+							$.post('login.php', {username: $('#login').val()}, function(data){
+								if (data == 'true') {
+									username = $('#login').val();
+									$('#login').val('');
+									$('.messages').show();
+									$('#login').attr('placeholder', '');
+									$('#login').attr('id', 'message_input');
+									last_id = 0;
+								}
+							});
+						}
+					} else if ($(this).is('#message_input')) {
+						if ($('#message_input').val() != '') {
+							$.post('send.php', {user: username, message: $('#message_input').val(), conversation: <?=$id?>});
+							$('#message_input').val('');
+						}
 					}
 				}
+			});
+
+			$('#logout').click(function(){
+				$.post('login.php', {logout: true});
+				username = 'guest';
+				$('.messages').hide();
+				$('#message_input').attr('id', 'login');
+				$('#login').attr('placeholder', 'Username');
 			});
 
 			var last_id = 0;
@@ -65,15 +89,14 @@
 					for (var i=0;i<messages.length;i++) {
 						$('.messages').append(show(messages[i]['user'], messages[i]['time'], messages[i]['message']));
 					}
+					if (messages != '') {
+						$('.messages').scrollTop($('.messages')[0].scrollHeight);
+					}
 				});
 			}, 100);
 
-			$('#message_input').keypress(function(e){
+			$(document).on('keypress', function(e){
 				if (e.which == 13) {
-					if ($('#message_input').val() != '') {
-						$.post('send.php', {user: username, message: $('#message_input').val(), conversation: <?=$id?>});
-						$('#message_input').val('');
-					}
 				}
 			});
 		</script>
