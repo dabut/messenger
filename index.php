@@ -28,7 +28,9 @@
 	<body>
 		<div class="container">
 			<div class="content">
+				<div class="messages">
 
+				</div>
 			</div>
 			<div class="input-group input">
 				<input type="text" class="form-control" id="message_input" />
@@ -61,7 +63,7 @@
 					var messages = JSON.parse(data)[0];
 					last_id = JSON.parse(data)['last_id'];
 					for (var i=0;i<messages.length;i++) {
-						$('.content').append(show(messages[i]['user'], messages[i]['time'], messages[i]['message']));
+						$('.messages').append(show(messages[i]['user'], messages[i]['time'], messages[i]['message']));
 					}
 				});
 			}, 100);
