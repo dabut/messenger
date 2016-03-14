@@ -19,6 +19,8 @@
 		$user = 'guest';
 	}
 
+	$user = addslashes($user);
+
 	// if (isGuest()) {
 	// 	$_GET['id'] = 0;
 	// }

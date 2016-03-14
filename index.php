@@ -8,15 +8,7 @@
 	}
 
 	$query = mysqli_query($db, "SELECT * FROM conversations WHERE id='".$id."'");
-	if (mysqli_num_rows($query)>0) {
-		$query = mysqli_query($db, "SELECT * FROM conversation_".$id."");
-		if (mysqli_num_rows($query)>0) {
-			$conversation = array();
-			while ($row = mysqli_fetch_array($query)) {
-				$conversation += array($row['id'] => array('user' => addslashes($row['user']), 'time' => $row['time'], 'message' => addslashes($row['message'])));
-			}
-		}
-	} else {
+	if (!(mysqli_num_rows($query)>0)) {
 		header('Location: index.php');
 	}
 
@@ -33,42 +25,35 @@
 		<script type="text/javascript" src="assets/script.js"></script>
 	</head>
 	<body>
-		<div class="container-fluid">
-			<div class="container content">
+		<div class="container-fluid container">
+			<div class="content">
 
 			</div>
-			<div class="input-group">
+			<div class="input-group input">
 				<input type="text" class="form-control" id="message_input" />
 			</div>
 		</div>
 		<script>
-			<?php
-				$last_id = 0;
-				foreach ($conversation as $this_id => $message) {
-					echo '$(\'.content\').append(show(\'' . $message['user'] . '\', \'' . $message['time'] . '\', \'' . $message['message'] . '\'));';
-					$last_id = $this_id;
-				}
-			?>
 
 			if (<?=isGuest()?>) {
 				var oldContainer = $('.container').html();
-				$('.container').html('<p id="login">Login</p>');
-			} else {
-				console.log('false');
+				$('.container').html('<input type="text" id="login" placeholder="username" />');
 			}
-
 			var username = '<?=$user?>';
 
-			$('#login').click(function(){
-				username = window.prompt('Pick a username');
-				$.post('login.php', {username: username}, function(data){
-					if (data == 'true') {
-						$('.container').html(oldContainer);
+			$('#login').keypress(function(e){
+				if (e.which == 13) {
+					if ($('#login').val() != '') {
+						$.post('login.php', {username: $('#login').val()}, function(data){
+							if (data == 'true') {
+								$('.container').html(oldContainer);
+							}
+						});
 					}
-				});
+				}
 			});
 
-			var last_id = <?=$last_id?>;
+			var last_id = 0;
 			setInterval(function(){
 				$.get('update.php?id=<?=$id?>&last_id='+last_id, function(data){ 
 					var messages = JSON.parse(data)[0];
