@@ -2,6 +2,10 @@ html, body {
 	height: 100%;
 }
 
+a:hover {
+	cursor: pointer;
+}
+
 .container {
 	display: table;
 	height: 100vh;
@@ -27,4 +31,8 @@ html, body {
 .messages {
 	height: 100%;
 	overflow-y: scroll;
+}
+
+#login {
+	width: 100%;
 }
