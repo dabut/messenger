@@ -3,18 +3,21 @@
 	include '../config/config.php';
 
 	$method = $_SERVER['REQUEST_METHOD'];
-	$request = $method . '/' . implode('/', array_filter(explode('/', $_REQUEST['request'])));
+	$request = $method . '/' . explode('/', $_REQUEST['request'])[0];
+	$additional = array_filter(explode('/', $_REQUEST['request']));
 	$response = array('');
 	switch ($request) {
 		case 'GET/conversation':
-			if (isset($_REQUEST['code'])) {
-				$code = $_REQUEST['code'];
+			if (isset($additional[1])) {
+				$code = $additional[1];
 				$query = mysqli_query($db, "SELECT * FROM conversations WHERE code = '" . $code . "'");
 				$conversation = '0';
 				while ($row = mysqli_fetch_array($query)) {
 					$conversation = $row['id'];
 				}
 				$response = array($conversation);
+			} else {
+				$response = array('0');
 			}
 			break;
 		case 'POST/conversation':
@@ -67,6 +70,7 @@
 
 			do {
 				$query = mysqli_query($db, "SELECT * FROM conversations WHERE code = '" . $rand . "'");
+				echo mysqli_error($db);
 				if (mysqli_num_rows($query) == 0) {
 					$found = false;
 					$query = mysqli_query($db, "INSERT INTO conversations (code) VALUES ('" . $rand . "')");
