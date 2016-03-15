@@ -5,6 +5,7 @@
 		$id = $_GET['id'];
 	} else {
 		$id = 0;
+		$code = 'aaaa';
 	}
 
 	$query = mysqli_query($db, "SELECT * FROM conversations WHERE id='".$id."'");
@@ -27,15 +28,12 @@
 	</head>
 	<body>
 		<div class="container">
-			<nav class="navbar navbar-deault">
-				<div class="container-fluid">
-					<ul class="nav navbar-nav">
-						<li><button class="btn btn-default navbar-btn" id="new">New Chat</button></li>
-						<li><p class="navbar-text">Hey</p></li>
-						<li><button class="btn btn-default navbar-btn" id="logout">Logout</button></li>
-					</ul>
-				</div>
-			</nav>
+			<div class="input-group">
+				<span class="input-group-addon">http://192.168.0.4/projects/messenger/msg-</span>
+				<input type="text" class="form-control" value="<?=$code?>" id="conversation" />
+			</div>
+			<button class="btn btn-default" id="new">New Chat</button>
+			<button class="btn btn-default" id="logout">Logout</button>
 			<div class="btn-group menu">
 			</div>
 			<div class="content">
@@ -48,7 +46,6 @@
 			</div>
 		</div>
 		<script>
-
 			if (<?=isGuest()?>) {
 				$('.messages').hide();
 				$('#message_input').attr('id', 'login');
@@ -58,6 +55,8 @@
 			var username = '<?=$user?>';
 
 			var conversation = '<?=$id?>';
+
+			var code = '<?=$code?>';
 		</script>
 	</body>
 </html>

@@ -3,6 +3,8 @@ function show(user, time, message) {
 }
 
 $(document).ready(function(){
+	$('#conversation').val(code);
+
 	$('input').on('keypress', function(e){
 		if (e.which == 13) {
 			if ($(this).is('#login')) {
@@ -23,6 +25,8 @@ $(document).ready(function(){
 					$.post('send.php', {user: username, message: $('#message_input').val(), conversation: conversation});
 					$('#message_input').val('');
 				}
+			} else if ($(this).is('#conversation')) {
+				window.location.href = 'msg-'+$(this).val();
 			}
 		}
 	});
