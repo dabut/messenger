@@ -27,6 +27,13 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#new').click(function(){
+		$.post('api/conversation', function(data){
+			var code = JSON.parse(data)[0];
+			window.location.href = 'msg-'+code;
+		});
+	});
+
 	$('#logout').click(function(){
 		$.post('login.php', {logout: true});
 		username = 'guest';

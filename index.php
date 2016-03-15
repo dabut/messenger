@@ -27,8 +27,16 @@
 	</head>
 	<body>
 		<div class="container">
-			<div class="menu">
-			<a id="logout">Logout</a>
+			<nav class="navbar navbar-deault">
+				<div class="container-fluid">
+					<ul class="nav navbar-nav">
+						<li><button class="btn btn-default navbar-btn" id="new">New Chat</button></li>
+						<li><p class="navbar-text">Hey</p></li>
+						<li><button class="btn btn-default navbar-btn" id="logout">Logout</button></li>
+					</ul>
+				</div>
+			</nav>
+			<div class="btn-group menu">
 			</div>
 			<div class="content">
 				<div class="messages">
