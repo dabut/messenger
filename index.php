@@ -9,9 +9,13 @@
 		$code = 'aaaa';
 	}
 
-	$query = mysqli_query($db, "SELECT * FROM conversations WHERE id='".$id."'");
-	if (!(mysqli_num_rows($query)>0)) {
+	$query = $db->prepare("SELECT * FROM conversations WHERE id='".$id."'");
+	$query->execute();
+	$result = $query->fetchAll();
+
+	if (!$result || count($result) < 1) {
 		header('Location: index.php');
+		die();
 	}
 
 	if (!isset($conversation)) {
@@ -30,7 +34,7 @@
 	<body>
 		<div class="container">
 			<div class="input-group">
-				<span class="input-group-addon">http://192.168.0.4/projects/messenger/msg-</span>
+				<span class="input-group-addon">http://localhost/projects/messenger/msg-</span>
 				<input type="text" class="form-control" value="<?=$code?>" id="conversation" />
 			</div>
 			<button class="btn btn-default" id="new">New Chat</button>

@@ -10,9 +10,11 @@
 		case 'GET/conversation':
 			if (isset($additional[1])) {
 				$code = $additional[1];
-				$query = mysqli_query($db, "SELECT * FROM conversations WHERE code = '" . $code . "'");
+				$query = $db->prepare("SELECT * FROM conversations WHERE code = '" . $code . "'");
+				$query->execute();
+				$result = $query->fetchAll();
 				$conversation = '0';
-				while ($row = mysqli_fetch_array($query)) {
+				foreach ($result as $row) {
 					$conversation = $row['id'];
 				}
 				$response = array($conversation);
@@ -69,16 +71,20 @@
 			$rand = create(4, 'lower');
 
 			do {
-				$query = mysqli_query($db, "SELECT * FROM conversations WHERE code = '" . $rand . "'");
-				echo mysqli_error($db);
-				if (mysqli_num_rows($query) == 0) {
+				$query = $db->prepare("SELECT * FROM conversations WHERE code = '" . $rand . "'");
+				$query->execute();
+				$result = $query->fetchAll();
+				if (!$result || count($result) < 1) {
 					$found = false;
-					$query = mysqli_query($db, "INSERT INTO conversations (code) VALUES ('" . $rand . "')");
-					$query = mysqli_query($db, "SELECT * FROM conversations WHERE code = '" . $rand . "'");
-					while ($row = mysqli_fetch_array($query)) {
+					$query = $db->prepare("INSERT INTO conversations (code) VALUES ('" . $rand . "')");
+					$query->execute();
+					$query = $db->prepare("SELECT * FROM conversations WHERE code = '" . $rand . "'");
+					$query->execute();
+					foreach ($result as $row) {
 						$id = $row['id'];
 					}
-					$query = mysqli_query($db, "CREATE TABLE conversation_" . $id . " (id int(11) AUTO_INCREMENT PRIMARY KEY, user varchar(20) NOT NULL, time int(11) NOT NULL, message text NOT NULL)");
+					$query = $db->prepare("CREATE TABLE conversation_" . $id . " (id int(11) AUTO_INCREMENT PRIMARY KEY, user varchar(20) NOT NULL, time int(11) NOT NULL, message text NOT NULL)");
+					$query->execute();
 					$response = array($rand);
 				} else {
 					$found = true;
