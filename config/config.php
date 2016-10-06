@@ -1,6 +1,7 @@
 <?php
 
-	$config = json_decode(file_get_contents('config/config.json'), true);
+
+	$config = json_decode(file_get_contents(__DIR__ . '/config.json'), true);
 
 	$db_host = $config['host'];
 	$db_name = $config['name'];

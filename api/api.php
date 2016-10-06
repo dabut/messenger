@@ -80,9 +80,8 @@
 					$query->execute();
 					$query = $db->prepare("SELECT * FROM conversations WHERE code = '" . $rand . "'");
 					$query->execute();
-					foreach ($result as $row) {
-						$id = $row['id'];
-					}
+					$result = $query->fetchAll();
+					$id = $result[0]['id'];
 					$query = $db->prepare("CREATE TABLE conversation_" . $id . " (id int(11) AUTO_INCREMENT PRIMARY KEY, user varchar(20) NOT NULL, time int(11) NOT NULL, message text NOT NULL)");
 					$query->execute();
 					$response = array($rand);
