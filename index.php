@@ -1,4 +1,5 @@
 <?php
+
 	include 'assets/global.php';
 
 	if (isset($_GET['id'])) {
